@@ -1,16 +1,22 @@
 import express, { response } from "express";
 import bodyParser from "body-parser";
-
+import mongoose from "mongoose";
+import userRouter from "./routes/userRouter.js";
 
 let app = express();
+
 app.use(bodyParser.json());
 
+let mongoUrl = "mongodb+srv://admin:123@cluster0.mwn2w7e.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
+mongoose.connect(mongoUrl)
 
-app.get("/", (req, res)=>{
-  console.log("Hello");
-  res.json({message:"Hello"})
+let connection = mongoose.connection;
+connection.once("open", ()=>{
+  console.log("MongoDB database connection established successfully");
 })
+
+app.use("/api/users", userRouter);
 
 
 app.listen(3000, ()=>{
