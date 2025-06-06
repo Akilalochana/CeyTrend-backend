@@ -7,7 +7,7 @@ export function addReview(req, res){
     })
     return
   }
-  console.log(req.body)
+  // console.log(req.body)
   const data =  req.body
   data.name = req.user.firstName + " " + req.user.lastName;
   data.profilePicture= req.user.profilePicture;
@@ -25,4 +25,21 @@ export function addReview(req, res){
     })
   })
 
+}
+
+
+export function getReviews(req, res){
+  const user = req.user;
+
+  if(user == null || user.role != "admin"){
+    Review.find({isApproved:true}).then((reviews)=>{
+      res.status(200).json(reviews)
+    })
+    return
+  }
+  if(user.role == "admin"){
+    Review.find().then((reviews)=>{
+      res.status(200).json(reviews)
+    })
+  }
 }
