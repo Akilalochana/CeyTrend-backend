@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 const reviewSchema = new mongoose.Schema({
   email:{
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   name:{
     type: String,
