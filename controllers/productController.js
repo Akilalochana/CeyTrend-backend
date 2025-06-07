@@ -97,3 +97,21 @@ export async function updateProducts(req, res){
     });
   }
 }
+
+export async function deleteProducts(req, res){
+  try{
+    if(isItAdmin(req)){
+      const key = req.params.key;
+      await Product.deleteOne({key:key});
+      res.json({message:"Product deleted successfully"});
+    }else{
+      res.json({message:"You are not authorized to delete products"});
+    }
+
+  }catch(e){
+    res.status(500).json({
+      message: "Failed to delete products",
+     
+    });
+  }
+}
