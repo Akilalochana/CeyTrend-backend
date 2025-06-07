@@ -24,6 +24,11 @@ const productSchema = new mongoose.Schema({
   description:{
     type: String,
     required: true
+  },
+  image:{
+    type: [String],
+    required: true,
+    default: "https://www.shutterstock.com/image-vector/no-image-available-vector-icon-260nw-1502474903.jpg"
   }
 });
 
