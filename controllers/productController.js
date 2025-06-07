@@ -1,4 +1,5 @@
 import Product from "../models/product.js";
+import { isItAdmin } from "./userController.js";
 
 export async function addProduct(req, res) {
   console.log(req.user);
@@ -69,6 +70,29 @@ export async function getProducts(req, res){
     console.error("Error fetching products:", err);
     res.status(500).json({
       message: "Failed to fetch products",
+      error: err.message
+    });
+  }
+}
+
+
+
+export async function updateProducts(req, res){
+  try{
+    if(isItAdmin(req)){
+      const key = req.params.key;
+
+      const data = req.body;
+      await Product.updateOne({key:key},{$set:data});
+
+      res.json({message:"Product updated successfully"});
+    }else{
+      res.json({message:"You are not authorized to update products"});
+    }
+
+  }catch(err){
+    res.status(500).json({
+      message: "Failed to update products",
       error: err.message
     });
   }
